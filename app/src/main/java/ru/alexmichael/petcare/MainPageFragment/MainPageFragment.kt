@@ -22,11 +22,15 @@ import ru.alexmichael.petcare.ui.theme.PetCareTheme
 
 class MainPageFragment: Fragment() {
 
+    companion object {
+        val TEXT_TOP_LINE = "Выберете котрегорию питомца"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return ComposeView(requireContext()).apply {
             setContent {
                 Start()
@@ -34,7 +38,7 @@ class MainPageFragment: Fragment() {
         }
     }
 
-    fun OpenCategory(id: Int) = TransitionContract().navigationTransition(id)
+    fun openCategory(id: Int) = transitionContract().navigationTransition(id)
 
 
     @Composable
@@ -42,16 +46,16 @@ class MainPageFragment: Fragment() {
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
-            Text("Выберете котрегорию питомца")
+            Text(TEXT_TOP_LINE)
 
             Spacer(modifier = Modifier.height(50.dp))
 
             buildRow(R.drawable.ic_dog_icon_group, R.drawable.ic_cat_icon_group)
-
+            Spacer(modifier = Modifier.height(8.dp))
             buildRow(R.drawable.ic_mouse_icon_group, R.drawable.ic_parrot_icon_group)
-
+            Spacer(modifier = Modifier.height(8.dp))
             buildRow(R.drawable.ic_fish_icon_group, R.drawable.ic_tutrle_icon_group)
         }
     }
@@ -77,12 +81,12 @@ class MainPageFragment: Fragment() {
                     enabled = true,
                     onClickLabel = "Clickable image",
                     onClick = {
-                        Log.d("OpenCategory", "Work")
-                        this.OpenCategory(id)
+                        this.openCategory(id)
                     }
                 )
 
         )
+
     }
 
 

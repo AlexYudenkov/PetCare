@@ -29,11 +29,11 @@ class MainActivity : FragmentActivity(), AppContractTransition {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
 
-		val bottumNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+		val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
 		navController = findNavController(R.id.container)
 
-		bottumNavigationView.setupWithNavController(navController)
+		bottomNavigationView.setupWithNavController(navController)
 	}
 
 	override fun navigationTransition(id: Int){

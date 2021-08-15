@@ -5,7 +5,7 @@ import ru.alexmichael.petcare.R
 import java.lang.RuntimeException
 
 
-fun Fragment.TransitionContract():AppContractTransition = requireActivity() as AppContractTransition
+fun Fragment.transitionContract():AppContractTransition = requireActivity() as AppContractTransition
 
 interface AppContractTransition {
 

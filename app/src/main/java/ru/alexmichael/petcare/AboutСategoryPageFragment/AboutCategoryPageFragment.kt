@@ -16,17 +16,17 @@ class AboutCategoryPageFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                OpetnCategoty()
+                OpenCategory()
             }
         }
     }
 }
 
 @Composable
-fun OpetnCategoty(){
+fun OpenCategory(){
     Text("CategoryFragment")
 }
 
@@ -34,6 +34,6 @@ fun OpetnCategoty(){
 @Composable
 fun DefaultPreview() {
     PetCareTheme {
-        OpetnCategoty()
+        OpenCategory()
     }
 }

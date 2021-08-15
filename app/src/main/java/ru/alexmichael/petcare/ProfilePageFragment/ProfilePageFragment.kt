@@ -17,17 +17,17 @@ class ProfilePageFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                OpentProfile()
+                OpenProfile()
             }
         }
     }
 }
 
 @Composable
-fun OpentProfile(){
+fun OpenProfile(){
     Text("ProfileFragment")
 }
 
@@ -35,6 +35,6 @@ fun OpentProfile(){
 @Composable
 fun DefaultPreview() {
     PetCareTheme {
-        OpentProfile()
+        OpenProfile()
     }
 }
