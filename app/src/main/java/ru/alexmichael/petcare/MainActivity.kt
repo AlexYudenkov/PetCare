@@ -1,6 +1,7 @@
 package ru.alexmichael.petcare
 
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
@@ -22,7 +23,6 @@ import java.lang.RuntimeException
 
 class MainActivity : FragmentActivity(), AppContractTransition {
 
-	//private var supportManager = supportFragmentManager
 	private lateinit var navController:NavController
 
 	override fun onCreate(savedInstanceState: Bundle?) {

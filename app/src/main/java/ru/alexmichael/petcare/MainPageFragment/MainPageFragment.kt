@@ -8,10 +8,16 @@ import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -64,29 +70,34 @@ class MainPageFragment: Fragment() {
     fun buildRow(id1: Int, id2: Int) {
         Row(modifier = Modifier.padding(all = 8.dp)) {
             //пропорция картинок 1.5 / 1
-            buildImage(id = id1)
-            buildImage(id = id2)
+            buildCard(imageId = id1)
+            buildCard(imageId = id2)
         }
     }
 
+    @Composable
+    fun buildCard(imageId: Int){
+        Card(
+            modifier = Modifier
+                .width(195.dp)
+                .height(130.dp)
+                .padding(horizontal = 8.dp)
+                .clickable { this.openCategory(imageId) },
+            shape = RoundedCornerShape(20.dp),
+            backgroundColor = Color(red=239, green=239, blue = 239),
+            ) {
+            buildImage(id = imageId)
+
+        }
+    }
     @Composable
     fun buildImage(id: Int) {
         Image(
             painter = painterResource(id = id),
             contentDescription = "-",
             modifier = Modifier
-                .width(195.dp)
-                .height(130.dp)
-                .clickable(
-                    enabled = true,
-                    onClickLabel = "Clickable image",
-                    onClick = {
-                        this.openCategory(id)
-                    }
-                )
-
+                .padding(top = 40.dp)
         )
-
     }
 
 

@@ -11,7 +11,8 @@
         android:label="MainPageFragment" >
         <action
             android:id="@+id/action_mainPageFragment_to_aboutCategoryPageFragment"
-            app:destination="@id/aboutCategoryPageFragment" />
+            app:destination="@id/aboutCategoryPageFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
