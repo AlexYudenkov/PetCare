@@ -1,9 +1,6 @@
-package ru.alexmichael.petcare.MainPageFragment
+package ru.alexmichael.petcare.extTransition
 
 import androidx.fragment.app.Fragment
-import ru.alexmichael.petcare.R
-import java.lang.RuntimeException
-
 
 fun Fragment.transitionContract():AppContractTransition = requireActivity() as AppContractTransition
 
