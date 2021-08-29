@@ -8,8 +8,13 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -21,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.alexmichael.petcare.R
 import ru.alexmichael.petcare.enumIdTransition
 import ru.alexmichael.petcare.extTransition.transitionContract
@@ -28,23 +34,28 @@ import ru.alexmichael.petcare.ui.theme.PetCareTheme
 
 class ProfilePageFragment: Fragment() {
 
+    private val profileViewModel:ProfileViewModel = ProfileViewModel()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         return ComposeView(requireContext()).apply {
             setContent {
-                OpenProfile("Борис", "Котопес")
+                OpenProfile(R.drawable.ic_dog_icon_group,"Борис", "Котопес")
             }
         }
     }
 
+
     private fun openNextPage(id: Int) = transitionContract().navigationTransition(id)
 
     @Composable
-    fun OpenProfile(namePet: String, kindPet: String) {
+    fun OpenProfile(imageId: Int, namePet: String, kindPet: String) {
         Column {
+            //Setting icon
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
@@ -60,10 +71,11 @@ class ProfilePageFragment: Fragment() {
                 )
             }
 
-            buildProfileCard(namePet = namePet, kindPet = kindPet)
+            buildProfileCard(imageId, namePet = namePet, kindPet = kindPet)
 
             Spacer(modifier = Modifier.padding(top = 100.dp))
 
+            //Schedule day
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     "Режим дня",
@@ -81,8 +93,8 @@ class ProfilePageFragment: Fragment() {
                     )
                 }
             }
-
-            Row {
+            //Schedule day
+            Row (horizontalArrangement = Arrangement.SpaceEvenly){
                 Text(
                     "Поможем не забыть когда покорить вашего друга",
                     fontSize = 15.sp,
@@ -90,28 +102,53 @@ class ProfilePageFragment: Fragment() {
                     modifier = Modifier.padding(start = 6.dp)
                 )
 
-                Spacer(modifier = Modifier.padding(start = 12.dp))
-
                 Image(
                     painter = painterResource(id = R.drawable.ic_plus),
                     contentDescription = "plus icon",
-                    modifier = Modifier.clickable {
-                        openNextPage(enumIdTransition.PROFILEtoADDALARM.id_T)
-                    }
+                    modifier = Modifier
+                        .padding(start = 4.dp)
+                        .clickable {
+                            openNextPage(enumIdTransition.PROFILEtoADDALARM.id_T)
+                        }
                 )
+            }
+
+            //List Clock
+            LazyColumn{
+                items(profileViewModel.listClockData){listClockData->
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+
+                        },
+                        horizontalArrangement = Arrangement.SpaceEvenly)
+                    {
+                        Text(listClockData.time)
+
+                        val checkedState = remember { mutableStateOf(listClockData.stateEnable) }
+                        Switch(
+                            checked = checkedState.value,
+                            onCheckedChange = {
+                                checkedState.value = it
+                                listClockData.stateEnable = checkedState.value
+                            }
+                        )
+
+                    }
+                }
             }
 
         }
     }
 
     @Composable
-    fun buildProfileCard(namePet: String, kindPet: String) {
+    fun buildProfileCard(imageId: Int, namePet: String, kindPet: String) {
 
         Row(modifier = Modifier.fillMaxWidth()) {
             val startProfilePadding = 8
 
             Image(
-                painter = painterResource(id = R.drawable.ic_dog_icon_group),
+                painter = painterResource(id = imageId),
                 contentDescription = "-",
                 modifier = Modifier
                     .padding(start = startProfilePadding.dp)
@@ -143,7 +180,8 @@ class ProfilePageFragment: Fragment() {
     @Composable
     fun DefaultPreview() {
         PetCareTheme {
-            OpenProfile("Борис", "Котопес")
+            OpenProfile(R.drawable.ic_dog_icon_group, "Борис", "Котопес")
         }
     }
 }
+

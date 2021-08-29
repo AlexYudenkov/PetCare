@@ -29,7 +29,8 @@
         android:label="ProfilePageFragment" >
         <action
             android:id="@+id/action_profilePageFragment_to_addAlarmClock"
-            app:destination="@id/addAlarmClock" />
+            app:destination="@id/addAlarmClock"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_profilePageFragment_to_settingsProfile"
             app:destination="@id/settingsProfile" />
@@ -37,9 +38,15 @@
     <fragment
         android:id="@+id/addAlarmClock"
         android:name="ru.alexmichael.petcare.ProfilePageFragment.addAlarmClockPage.AddAlarmClock"
-        android:label="addAlarmClock" />
+        android:label="addAlarmClock" >
+        <action
+            android:id="@+id/action_addAlarmClock_to_profilePageFragment"
+            app:destination="@id/profilePageFragment"
+            app:popUpTo="@id/profilePageFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/settingsProfile"
-        android:name="ru.alexmichael.petcare.ProfilePageFragment.settingsProfile.SettingsProfile"
-        android:label="settingsProfile" />
+        android:name="ru.alexmichael.petcare.ProfilePageFragment.settingsPage.SettingsProfile"
+        android:label="SettingsProfile" />
 </navigation>
