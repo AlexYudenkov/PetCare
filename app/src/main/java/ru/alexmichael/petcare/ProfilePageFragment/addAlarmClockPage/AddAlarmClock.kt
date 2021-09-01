@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import com.google.android.material.timepicker.MaterialTimePicker
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.alexmichael.petcare.DaggerDaggerComponent
 import ru.alexmichael.petcare.ProfilePageFragment.ProfileViewModel
 import ru.alexmichael.petcare.ui.theme.PetCareTheme
 import ru.alexmichael.petcare.R
@@ -30,6 +30,7 @@ import ru.alexmichael.petcare.extTransition.transitionContract
 class AddAlarmClock: Fragment() {
 
     private var Time = mutableStateOf("00:00")
+    private val profileViewModel = ProfileViewModel.profileViewModelGeneral
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -93,6 +94,7 @@ class AddAlarmClock: Fragment() {
 
                 Button(
                         onClick = {
+                            profileViewModel.listClockData.add(ClockData(Time.value, true))
                             getBackInProfile(enumIdTransition.ADDALARMtoPROFILE.id_T)
                                   },
                         colors = ButtonDefaults.textButtonColors(

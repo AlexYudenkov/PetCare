@@ -1,17 +1,15 @@
 package ru.alexmichael.petcare
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
-
+import ru.alexmichael.petcare.ProfilePageFragment.ProfileViewModel
 import ru.alexmichael.petcare.extTransition.AppContractTransition
 import java.lang.RuntimeException
+
 
 class MainActivity : FragmentActivity(), AppContractTransition {
 
@@ -20,7 +18,6 @@ class MainActivity : FragmentActivity(), AppContractTransition {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
-
 		val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
 		navController = findNavController(R.id.container)
