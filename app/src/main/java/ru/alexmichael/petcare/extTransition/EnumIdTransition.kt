@@ -1,7 +1,7 @@
 package ru.alexmichael.petcare
 
 enum class enumIdTransition(val id_T:Int) {
-    PROFILEtoSETTINGS(1),
-    PROFILEtoADDALARM(2),
-    ADDALARMtoPROFILE(3),
+    PROFILE_TO_SETTINGS(1),
+    PROFILE_TO_ADDALARM(2),
+    ADDALARM_TO_PROFILE(3),
 }

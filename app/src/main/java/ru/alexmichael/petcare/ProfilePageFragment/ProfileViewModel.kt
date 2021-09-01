@@ -1,20 +1,21 @@
 package ru.alexmichael.petcare.ProfilePageFragment
 
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.alexmichael.petcare.ProfilePageFragment.addAlarmClockPage.ClockData
 
+
 class ProfileViewModel: ViewModel() {
 
-    var ItemList: MutableLiveData<MutableList<ClockData>> = MutableLiveData()
-    var listClockData: MutableList<ClockData>
-
-    init{
-
-        ItemList.value = mutableListOf()
-
-        listClockData = ItemList.value!!
-
+    companion object{
+        val profileViewModelGeneral:ProfileViewModel = ProfileViewModel()
     }
 
+    var logIsClose = true
+    var itemList: MutableLiveData<MutableList<ClockData>> = MutableLiveData()
+
+    init{
+        itemList.value = mutableListOf()
+    }
 }

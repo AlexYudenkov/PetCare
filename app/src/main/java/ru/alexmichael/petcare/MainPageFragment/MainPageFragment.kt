@@ -59,7 +59,7 @@ class MainPageFragment: Fragment() {
             Spacer(modifier = Modifier.height(8.dp))
             buildRow(R.drawable.ic_mouse_icon_group, R.drawable.ic_parrot_icon_group)
             Spacer(modifier = Modifier.height(8.dp))
-            buildRow(R.drawable.ic_fish_icon_group, R.drawable.ic_tutrle_icon_group)
+            buildRow(R.drawable.ic_fish_icon_group, R.drawable.ic_turtle_icon_group)
         }
     }
 
