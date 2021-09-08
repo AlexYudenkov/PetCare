@@ -42,30 +42,6 @@ class ProfilePageFragment: Fragment() {
     companion object{
         private const val DATA_SIZE_KEY = "SIZE"
         const val START_PROFILE_PADDING = 8
-
-        private fun openLogClock(sharedPreferences: SharedPreferences, profileViewModel:ProfileViewModel){
-            if(profileViewModel.LogIsClose) {
-                val size = sharedPreferences.getInt(DATA_SIZE_KEY, 0)
-                for (i in 0 until size) {
-                    val stateEnable = sharedPreferences.getBoolean("STATE $i", true)
-                    val time = sharedPreferences.getString("TIME $i", "00:00").toString()
-                    profileViewModel.listClockData.add(ClockData(time, stateEnable))
-                }
-                profileViewModel.LogIsClose = false
-                println(profileViewModel.LogIsClose)
-            }
-
-        }
-
-        private fun saveLogClock(sharedPreferences: SharedPreferences, profileViewModel:ProfileViewModel){
-            var editor: SharedPreferences.Editor = sharedPreferences.edit()
-            for (i in 0 until profileViewModel.listClockData.size) {
-                editor.putString("TIME $i", profileViewModel.listClockData[i].time)
-                editor.putBoolean("STATE $i", profileViewModel.listClockData[i].stateEnable)
-            }
-            editor.putInt(DATA_SIZE_KEY, profileViewModel.listClockData.size)
-            editor.apply()
-        }
     }
 
     override fun onCreateView(
@@ -75,26 +51,50 @@ class ProfilePageFragment: Fragment() {
     ): View {
         sharedPreferences = requireActivity().getSharedPreferences("ListClock", Context.MODE_PRIVATE)
 
-        ProfilePageFragment.openLogClock(sharedPreferences, profileViewModel)
+        openLogClock(sharedPreferences, profileViewModel)
 
+        val petParameters = PetParameters(R.drawable.ic_dog_icon_group,"Борис", "Котопес")
         return ComposeView(requireContext()).apply {
             setContent {
-                OpenProfile(R.drawable.ic_dog_icon_group,"Борис", "Котопес")
+                OpenProfile(petParameters)
 
             }
         }
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
-        ProfilePageFragment.saveLogClock(sharedPreferences, profileViewModel)
+        saveLogClock(sharedPreferences, profileViewModel)
+    }
+
+    private fun openLogClock(sharedPreferences: SharedPreferences, profileViewModel:ProfileViewModel){
+        if(profileViewModel.logIsClose) {
+            val size = sharedPreferences.getInt(DATA_SIZE_KEY, 0)
+            for (i in 0 until size) {
+                val stateEnable = sharedPreferences.getBoolean("STATE $i", true)
+                val time = sharedPreferences.getString("TIME $i", "00:00").toString()
+                profileViewModel.itemList.value!!.add(ClockData(time, stateEnable))
+            }
+            profileViewModel.logIsClose = false
+            println(profileViewModel.logIsClose)
+        }
+
+    }
+
+    private fun saveLogClock(sharedPreferences: SharedPreferences, profileViewModel:ProfileViewModel){
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        for (i in 0 until profileViewModel.itemList.value!!.size) {
+            editor.putString("TIME $i", profileViewModel.itemList.value!![i].time)
+            editor.putBoolean("STATE $i", profileViewModel.itemList.value!![i].stateEnable)
+        }
+        editor.putInt(DATA_SIZE_KEY, profileViewModel.itemList.value!!.size)
+        editor.apply()
     }
 
     private fun openNextPage(id: Int) = transitionContract().navigationTransition(id)
 
     @Composable
-    fun OpenProfile(imageId: Int, namePet: String, kindPet: String) {
+    fun OpenProfile(petParameters:PetParameters) {
 
         Column {
             //Setting icon
@@ -105,15 +105,15 @@ class ProfilePageFragment: Fragment() {
 
                 Image(
                     painter = painterResource(id = R.drawable.ic_settings_profile_icon),
-                    contentDescription = "-",
+                    contentDescription = "Settings Icon",
                     modifier = Modifier
                         .clickable {
-                            openNextPage(enumIdTransition.PROFILEtoSETTINGS.id_T)
+                            openNextPage(enumIdTransition.PROFILE_TO_SETTINGS.id_T)
                         }
                 )
             }
 
-            buildProfileCard(imageId, namePet = namePet, kindPet = kindPet)
+            buildProfileCard(petParameters)
 
             Spacer(modifier = Modifier.padding(top = 100.dp))
 
@@ -150,14 +150,14 @@ class ProfilePageFragment: Fragment() {
                     modifier = Modifier
                         .padding(start = 4.dp)
                         .clickable {
-                            openNextPage(enumIdTransition.PROFILEtoADDALARM.id_T)
+                            openNextPage(enumIdTransition.PROFILE_TO_ADDALARM.id_T)
                         }
                 )
             }
 
             //List Clock
             LazyColumn{
-                items(profileViewModel.listClockData){listClockData->
+                items(profileViewModel.itemList.value!!){listClockData->
                     Row(modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
@@ -173,23 +173,22 @@ class ProfilePageFragment: Fragment() {
                             onCheckedChange = {
                                 checkedState.value = it
                                 listClockData.stateEnable = checkedState.value
+                                saveLogClock(sharedPreferences, profileViewModel)
                             }
                         )
-
                     }
                 }
             }
-
         }
     }
 
     @Composable
-    fun buildProfileCard(imageId: Int, namePet: String, kindPet: String) {
+    fun buildProfileCard(petParameters:PetParameters) {
 
         Row(modifier = Modifier.fillMaxWidth()) {
 
             Image(
-                painter = painterResource(id = imageId),
+                painter = painterResource(id = petParameters.id_icon),
                 contentDescription = "PetIcon",
                 modifier = Modifier
                     .padding(start = START_PROFILE_PADDING.dp)
@@ -198,14 +197,14 @@ class ProfilePageFragment: Fragment() {
 
             Column {
                 Text(
-                    "Имя: $namePet",
+                    "Имя: ${petParameters.name}",
                     color = Color(R.color.black_78),
                     modifier = Modifier
                         .padding(start = START_PROFILE_PADDING.dp)
                 )
 
                 Text(
-                    "Вид: $kindPet",
+                    "Вид: ${petParameters.kind}",
                     color = Color(R.color.black_78),
                     modifier = Modifier
                         .padding(start = START_PROFILE_PADDING.dp)
@@ -216,12 +215,12 @@ class ProfilePageFragment: Fragment() {
         }
     }
 
-
     @Preview(showBackground = true)
     @Composable
     fun DefaultPreview() {
         PetCareTheme {
-            OpenProfile(R.drawable.ic_dog_icon_group, "Борис", "Котопес")
+            val petParameters = PetParameters(R.drawable.ic_dog_icon_group,"Борис", "Котопес")
+            OpenProfile(petParameters)
         }
     }
 }

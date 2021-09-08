@@ -10,24 +10,12 @@ class ProfileViewModel: ViewModel() {
 
     companion object{
         val profileViewModelGeneral:ProfileViewModel = ProfileViewModel()
-
     }
-    var LogIsClose = true
-    var ItemList: MutableLiveData<MutableList<ClockData>> = MutableLiveData()
-    var listClockData: MutableList<ClockData>
+
+    var logIsClose = true
+    var itemList: MutableLiveData<MutableList<ClockData>> = MutableLiveData()
 
     init{
-
-        ItemList.value = mutableListOf()
-
-        listClockData = ItemList.value!!
-
-
-
+        itemList.value = mutableListOf()
     }
-
-
-
-
-
 }

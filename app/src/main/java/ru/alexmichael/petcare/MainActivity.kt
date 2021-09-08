@@ -6,7 +6,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import ru.alexmichael.petcare.ProfilePageFragment.ProfileViewModel
 import ru.alexmichael.petcare.extTransition.AppContractTransition
 import java.lang.RuntimeException
 
@@ -32,10 +31,10 @@ class MainActivity : FragmentActivity(), AppContractTransition {
 			R.drawable.ic_mouse_icon_group -> {navController.navigate(R.id.action_mainPageFragment_to_aboutCategoryPageFragment)}
 			R.drawable.ic_parrot_icon_group -> {navController.navigate(R.id.action_mainPageFragment_to_aboutCategoryPageFragment)}
 			R.drawable.ic_fish_icon_group -> {navController.navigate(R.id.action_mainPageFragment_to_aboutCategoryPageFragment)}
-			R.drawable.ic_tutrle_icon_group -> {navController.navigate(R.id.action_mainPageFragment_to_aboutCategoryPageFragment)}
-			enumIdTransition.PROFILEtoADDALARM.id_T -> {navController.navigate(R.id.action_profilePageFragment_to_addAlarmClock)}
-			enumIdTransition.PROFILEtoSETTINGS.id_T -> { navController.navigate(R.id.action_profilePageFragment_to_settingsProfile) }
-			enumIdTransition.ADDALARMtoPROFILE.id_T ->{ navController.navigate(R.id.action_addAlarmClock_to_profilePageFragment) }
+			R.drawable.ic_turtle_icon_group -> {navController.navigate(R.id.action_mainPageFragment_to_aboutCategoryPageFragment)}
+			enumIdTransition.PROFILE_TO_ADDALARM.id_T -> {navController.navigate(R.id.action_profilePageFragment_to_addAlarmClock)}
+			enumIdTransition.PROFILE_TO_SETTINGS.id_T -> { navController.navigate(R.id.action_profilePageFragment_to_settingsProfile) }
+			enumIdTransition.ADDALARM_TO_PROFILE.id_T ->{ navController.navigate(R.id.action_addAlarmClock_to_profilePageFragment) }
 			else -> throw RuntimeException("Error Transition: Unknown Id Transition")
 		}
 

@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import com.google.android.material.timepicker.MaterialTimePicker
-import ru.alexmichael.petcare.DaggerDaggerComponent
 import ru.alexmichael.petcare.ProfilePageFragment.ProfileViewModel
 import ru.alexmichael.petcare.ui.theme.PetCareTheme
 import ru.alexmichael.petcare.R
@@ -29,7 +28,7 @@ import ru.alexmichael.petcare.extTransition.transitionContract
 
 class AddAlarmClock: Fragment() {
 
-    private var Time = mutableStateOf("00:00")
+    private var time = mutableStateOf("00:00")
     private val profileViewModel = ProfileViewModel.profileViewModelGeneral
 
     override fun onCreateView(
@@ -52,7 +51,7 @@ class AddAlarmClock: Fragment() {
         picker.show(requireActivity().supportFragmentManager, picker.toString())
         picker.addOnCancelListener {  }
         picker.addOnPositiveButtonClickListener {
-            Time.value = "${picker.hour}:${picker.minute}"
+            time.value = "${picker.hour}:${picker.minute}"
         }
         picker.addOnNegativeButtonClickListener {  }
     }
@@ -78,7 +77,7 @@ class AddAlarmClock: Fragment() {
                     horizontalArrangement = Arrangement.Center)
             {
 
-                Text(Time.value, modifier = Modifier.clickable {timePickerShow()},
+                Text(time.value, modifier = Modifier.clickable {timePickerShow()},
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Blue)
@@ -94,8 +93,8 @@ class AddAlarmClock: Fragment() {
 
                 Button(
                         onClick = {
-                            profileViewModel.listClockData.add(ClockData(Time.value, true))
-                            getBackInProfile(enumIdTransition.ADDALARMtoPROFILE.id_T)
+                            profileViewModel.itemList.value!!.add(ClockData(time.value, true))
+                            getBackInProfile(enumIdTransition.ADDALARM_TO_PROFILE.id_T)
                                   },
                         colors = ButtonDefaults.textButtonColors(
                                 backgroundColor = Color(R.color.black_40)
@@ -104,13 +103,8 @@ class AddAlarmClock: Fragment() {
                     Text("Добавить", color = Color(R.color.white))
                 }
             }
-
-
         }
     }
-
-
-
 
     @Preview(showBackground = true)
     @Composable
